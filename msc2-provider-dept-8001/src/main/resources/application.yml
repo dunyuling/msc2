@@ -1,0 +1,43 @@
+server:
+  port: 8001
+
+mybatis:
+  config-location: classpath:mybatis/mybatis.cfg.xml
+  type-aliases-package: com.rc.springcloud.entity
+  mapper-locations:
+    - classpath:mybatis/mapper/**/*.xml
+
+
+spring:
+  application:
+    name: microservicecloud-dept
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.2.212:3306/cloudDB01?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false
+    username: root
+    password: mysql
+    type: com.alibaba.druid.pool.DruidDataSource
+    dbcp2:
+      min-idle: 5
+      initial-size: 5
+      max-total: 5
+      max-wait-millis: 200
+  devtools:  # TODO not work
+    restart:
+      enabled: true  #热部署
+
+
+#注册微服务到Eureka Server
+eureka:
+  client:
+    service-url:
+      #      defaultZone: http://localhost:7001/eureka # 单机
+      defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka,http://eureka7003.com:7003/eureka #集群
+  instance:
+    instance-id: microservicecloud-dept-8001 #修改Eureka控制台集成实例的status
+    prefer-ip-address: true  # 浮于status连接时 访问路径显示ip
+
+info:  #信息完善
+  app.name: rc-microservicecloud
+  company.name: www.baidu.com
+#  build.version: ${project.version}$  # delimiter 不知道如何去设置
